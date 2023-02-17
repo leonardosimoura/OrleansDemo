@@ -29,7 +29,15 @@ namespace MSOrleansDemo.Grains
         {
              _state.State.SignerId = signerId;
              await _state.WriteStateAsync();
+
+            var brokerGrain = GrainFactory.GetGrain<IBrokerGrain>(0);
+
+            await brokerGrain.SendMessageAsync(new AgreementSignedEvent
+            {
+                AgreementId = this.GetPrimaryKeyString(),
+                PdfFileLocation = _state.State.PdfFileLocation,
+                SignerId = signerId
+            });
         }
     }
-
 }

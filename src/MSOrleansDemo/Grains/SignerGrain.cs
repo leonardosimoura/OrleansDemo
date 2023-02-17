@@ -9,7 +9,7 @@
 
         public async Task SignAgreementAsync(string agreementId)
         {
-            var agreementGrain = this.GrainFactory.GetGrain<IAgreementGrain>(agreementId);
+            var agreementGrain = GrainFactory.GetGrain<IAgreementGrain>(agreementId);
 
             await agreementGrain.SignAsync(this.GetPrimaryKeyString());
         }
