@@ -17,7 +17,7 @@ namespace MSOrleansDemo.Grains
         {
             _state.State.PdfFileLocation = Guid.NewGuid().ToString() + ".pdf";
             await _state.WriteStateAsync();
-            return "https://www.google.com.br/search?q=" + _state.State.PdfFileLocation;
+            return _state.State.PdfFileLocation;
         }
 
         public async Task<AgreementDetails> GetState()
