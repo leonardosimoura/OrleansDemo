@@ -21,12 +21,10 @@ var connectionString = "User ID=myuser;Password=123456789;Host=localhost;Port=54
 
 builder.Host.UseOrleans(siloBuilder =>
 {
-    
-
     ////Local
     siloBuilder.UseLocalhostClustering();
 
-    //siloBuilder.AddMemoryGrainStorage("agreementDetail");
+    siloBuilder.AddMemoryGrainStorage("agreementDetail");
 
     ////Persisted
     //siloBuilder.UseRedisClustering(opt =>
@@ -35,23 +33,23 @@ builder.Host.UseOrleans(siloBuilder =>
     //    opt.Database = 0;
     //});
 
-    siloBuilder.UseAdoNetReminderService(options =>
-    {
-        options.Invariant = invariant;
-        options.ConnectionString = connectionString;
-    });
+    //siloBuilder.UseAdoNetReminderService(options =>
+    //{
+    //    options.Invariant = invariant;
+    //    options.ConnectionString = connectionString;
+    //});
 
-    siloBuilder.AddAdoNetGrainStorage("agreementDetail", (OptionsBuilder<AdoNetGrainStorageOptions> optionsBuilder) =>
-    {
-        //Suporte para salvar o estado como Json foi removido na 7.X
-        //script para visualizar o json do campo binario
-        //select encode(payloadbinary , 'escape')::jsonb as "payloadAsJson",* from orleansstorage o 
-        optionsBuilder.Configure(options =>
-        {
-            options.Invariant = invariant;
-            options.ConnectionString = connectionString;
-        });
-    });
+    //siloBuilder.AddAdoNetGrainStorage("agreementDetail", (OptionsBuilder<AdoNetGrainStorageOptions> optionsBuilder) =>
+    //{
+    //    //Suporte para salvar o estado como Json foi removido na 7.X
+    //    //script para visualizar o json do campo binario
+    //    //select encode(payloadbinary , 'escape')::jsonb as "payloadAsJson",* from orleansstorage o 
+    //    optionsBuilder.Configure(options =>
+    //    {
+    //        options.Invariant = invariant;
+    //        options.ConnectionString = connectionString;
+    //    });
+    //});
 
     siloBuilder.UseDashboard(x => x.HostSelf = true);
 });
