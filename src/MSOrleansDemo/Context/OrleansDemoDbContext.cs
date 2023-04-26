@@ -14,7 +14,6 @@ namespace MSOrleansDemo.Context
             //catch (Exception ex)
             //{
             //    // nothing
-
             //}
         }
 
@@ -22,7 +21,6 @@ namespace MSOrleansDemo.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
             modelBuilder.Entity<AgreementState>().HasKey(x => x.AgreementId);
             modelBuilder.Entity<AgreementState>().Property(x => x.PdfFileLocation).IsRequired(false);
             modelBuilder.Entity<AgreementState>().Property(x => x.SignerId).IsRequired(false);
@@ -48,7 +46,6 @@ namespace MSOrleansDemo.Context
       EF.CompileAsyncQuery<OrleansDemoDbContext, string, AgreementState?>(
            (dbContext, id) => dbContext.AgreementStates.AsNoTracking().FirstOrDefault(n => n.AgreementId == id));
     }
-
 
     public class AgreementState
     {

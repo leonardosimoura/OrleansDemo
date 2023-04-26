@@ -51,6 +51,8 @@ builder.Host.UseOrleans(siloBuilder =>
     //    });
     //});
 
+    siloBuilder.UseTransactions();
+
     siloBuilder.UseDashboard(x => x.HostSelf = true);
 });
 
@@ -67,6 +69,8 @@ builder.Services.AddSwaggerGen(x =>
 });
 
 var app = builder.Build();
+
+app.ExecuteEntityFrameworkMigrations();
 
 #region Default 
 
@@ -106,6 +110,28 @@ app.MapPost("/agreement/{identifier}:generate-pdf",
         var pdf = await grain.GeneratePdfAsync();
 
         return Results.Ok(pdf);
+    })
+    .WithOpenApi();
+
+app.MapPost("/agreement/{identifier}:generate-pdf-one-way",
+    async (IGrainFactory grains, HttpRequest request, string identifier) =>
+    {
+        var grain = grains.GetGrain<IAgreementGrain>(identifier);
+
+        await grain.GeneratePdfOneRequestAsync();
+
+        return Results.Accepted();
+    })
+    .WithOpenApi();
+
+app.MapPost("/agreement/{identifier}/{callerId}:long-process",
+    async (IGrainFactory grains, HttpRequest request, string identifier, string callerId) =>
+    {
+        var grain = grains.GetGrain<IAgreementGrain>(identifier);
+
+        var result = await grain.LongProcessAsync(callerId);
+
+        return Results.Ok(result);
     })
     .WithOpenApi();
 

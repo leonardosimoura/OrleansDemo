@@ -55,6 +55,10 @@ namespace MSOrleansDemo.Grains
             return _state.PdfFileLocation;
         }
 
+        /// <summary>
+        /// GetState convention for Orleans Dashboard to retrive grain state dynamically
+        /// </summary>
+        /// <returns></returns>
         public async Task<AgreementDetails> GetState()
         {
             return new AgreementDetails()
